@@ -1,37 +1,49 @@
 <?php 
 	class User {
-		private $id;
-		private $name;
-		private $surname;
-		private $birthdate;
-		private $city;
-		
-		function __construct($id = NULL, $name = NULL, $surname = NULL, $birthdate = NULL, $city = NULL) {
-			$this->id = $id;
-			$this->name = $name;
-			$this->surname = $surname;
-			$this->birthdate = $birthdate;
-			$this->city = $city;
+		private $username;
+		private $password;
+		private $usertype;
+		private $firstname;
+		private $lastname;
+		private $phone;
+		private $address;
+
+		function __construct($username = NULL, $password = NULL, $usertype = NULL, $firstname = NULL, $lastname = NULL, $phone = NULL, $address = NULL) {
+			$this->username = $username;
+			$this->password = $password;
+			$this->usertype = $usertype;
+			$this->firstname = $firstname;
+			$this->lastname = $lastname;
+			$this->phone = $phone;
+			$this->address = $address;
 		}
 		
-		public function getID() {
-			return $this->id;
+		public function getUserName() {
+			return $this->username;
 		}
 		
-		public function getName() {
-			return $this->name;
+		public function getPassword() {
+			return $this->password;
 		}
 		
-		public function getSurname() {
-			return $this->surname;
+		public function getUserType() {
+			return $this->usertype;	
 		}
 		
-		public function getBirthdate() {
-			return $this->birthdate;	
+		public function getFirstName() {
+			return $this->firstname;
 		}
 		
-		public function getCity() {
-			return $this->city;
+		public function getLastName() {
+			return $this->lastname;
+		}
+		
+		public function getPhone() {
+			return $this->phone;	
+		}
+		
+		public function getAddress() {
+			return $this->address;	
 		}
 	}
 ?>

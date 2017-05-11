@@ -3,7 +3,7 @@
 		private $servername = "localhost";
 		private $username = "root";
 		private $password = "";
-		private $dbname = "infodb";
+		private $dbname = "civilregistry";
 		private $connection;
 		
 		function __construct() {
@@ -15,7 +15,7 @@
 			);
 			
 			if ($this->connection->connect_error) {
-				die("Bağlantı hatası: " . $this->connection->connect_error);
+				die("Connection Error: " . $this->connection->connect_error);
 			}
 			
 			$this->connection->set_charset("utf8");
