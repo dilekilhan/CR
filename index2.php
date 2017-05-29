@@ -33,7 +33,7 @@
 					<table>
 						<tr>
 							<td>
-								ID : 
+								Input : 
 							</td>
 							<td>
 								<input type="text" name="ID" id="txtCode"  required />

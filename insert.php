@@ -26,93 +26,75 @@
 	<head>
         <meta http-equiv="content-type" content="text/html;charset=utf-8">
         <title>Insert A Person</title>
-		<link rel="stylesheet" type="text/css" href="style/still.css">
+		<link rel="stylesheet" type="text/css" href="../style/newstyle.css">
 	</head>
 	<body> 
-		<div id="dvMain">
-			<form method="POST" action="<?php $_PHP_SELF ?>">
-				<table id="tblUsers">
-					<tbody>
-						<tr>
-							<th>ID</th>
-							<th>Province</th>
-							<th>City</th>
-							<th>Firstname</th>
-							<th>Lastname</th>
-							<th>Birthdate</th>
-							<th>Gender</th>
-							<th>Fathername</th>
-							<th>Mothername</th>
-						</tr>
-						<?php 
-							$personList = UserManager::listAllPersons();
-							
-							for($i = 0; $i < count($personList); $i++) {
-							?>
-							<tr>
-								<td><?php echo $personList[$i]->getID(); ?></td>
-								<td><?php echo $personList[$i]->getProvince(); ?></td>
-								<td><?php echo $personList[$i]->getCity(); ?></td>
-								<td><?php echo $personList[$i]->getFirstName(); ?></td>
-								<td><?php echo $personList[$i]->getLastName(); ?></td>
-								<td><?php echo $personList[$i]->getBirthdate(); ?></td>
-								<td><?php echo $personList[$i]->getGender(); ?></td>
-								<td><?php echo $personList[$i]->getFathername(); ?></td>
-								<td><?php echo $personList[$i]->getMothername(); ?></td>
-							</tr>
-							<?php
-							}
-						?>
-							<p></p>
+<div id="content">
+<form method="POST" action="<?php $_PHP_SELF ?>">
+	<table align="center" cellpadding = "5">
+	<tr>
+		<td>COUNTRY</td>
+		<td><input type="text" name="COUNTRY" value="TURKIYE" readonly="readonly" maxlength="30"/>(max 30 characters a-z and A-Z)</td>
+	</tr>
+ 	<tr>
+		<td>CITY</td>
+		<td><input type="text" name="CITY" maxlength="30"/>(max 30 characters a-z and A-Z)</td>
+	</tr>
+	<tr>
+		<td>FIRST NAME</td>
+		<td><input type="text" name="FIRST_NAME" maxlength="30"></input></td>
+		<td>LAST NAME</td>
+			<td><input type="text" name="LAST_NAME" maxlength="30"/></td>
+	</tr>
 
-							<tr>
-							ID        :			<input type="text" name="ID" required />
-							</tr>
-														<p></p>
-							<tr>
-							Province  :	<input type="text" name="Province" required />
-							</tr>
-														<p></p>
+	<tr>
+		<td>BIRTH DATE</td>
+		<td><input type="date" name="BIRTH_DATE" maxlength="30"/></td>
+	</tr>
+ 
+	<tr>
+		<td>GENDER</td>
+		<td>
+		Male <input type="radio" name="Gender" value="Male" />
+		Female <input type="radio" name="Gender" value="Female" />
+		</td>
+	</tr>
+ 	<tr>
+		<td>FATHER NAME</td>
+		<td><input type="text" name="FATHER_NAME" maxlength="30"/></td>
+		<td>MOTHER NAME</td>
+			<td><input type="text" name="MOTHER_NAME" maxlength="30"/></td>
+	</tr>
+	<tr>
+		<td>Identification Number</td>
+	</tr>
+	<tr>
+		<td><input type="radio" name="FATHER_NAME"/></td>
+		<td>Identification Number</td>
+		<td><input type="text" name="FATHER_NAME" maxlength="30"/></td>
+	</tr>
+	<tr>
+		<td><input type="radio" name="FATHER_NAME"/></td>
+		<td>Identification Number</td>
+		<td><input type="text" name="FATHER_NAME" maxlength="30"/></td>
+	</tr>
+	<tr>
+		<td><input type="radio" name="FATHER_NAME"/></td>
+		<td>Identification Number</td>
+		<td><input type="text" name="FATHER_NAME" maxlength="30"/></td>
+	</tr>
 
-							<tr>
-							City      :	<input type="text" name="City" required />
-							</tr>
-														<p></p>
+ 
+<!----- Submit and Reset ------------------------------------------------->
+<tr>
+<td colspan="2" align="center">
+<input type="submit" value="Submit">
+<input type="reset" value="Reset">
+</td>
+</tr>
+</table>
 
-							<tr>
-							First Name:	<input type="text" name="Firstname" required />
-							</tr>
-														<p></p>
-
-							<tr>
-							Last Name :		<input type="text" name="Lastname" required />
-							</tr>
-														<p></p>
-							<tr>
-							Birth Date :		<input type="date" name="Birthdate" required />
-							</tr>
-														<p></p>
-							<tr>
-							Gender    :			<input type="text" name="Gender" required />
-							</tr>
-														<p></p>
-							<tr>
-							FatherName:			<input type="text" name="Fathername" required />
-							</tr>
-														<p></p>
-							<tr>
-							MotherName:			<input type="text" name="Mothername" required />
-							</tr>
-														<p></p>
-							<input type="submit" name="save" value="Save" />
-								<?php 
-									if(isset($errorMeesage)) {
-										echo "<br>" . "<span style='color: red;'>" . $errorMeesage . "</span>";
-									}
-								?>
-					</tbody>
-				</table>
-			</form>
-		</div>
-	</body> 
+</form>
+ </div>
+</body> 
 </html>

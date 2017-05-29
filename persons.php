@@ -1,62 +1,73 @@
 <?php
-	if(isset($_POST['ID'])) {
-		// connect DB
-		$servername = "localhost";
-		$username = "root";
-		$password = "";
-		$dbname = "civilregistry";
+require_once("DataLayer/DB.php");
+
+	$person= "FALSE";
+    $db = new DB();
 		
-		$conn = new mysqli($servername, $username, $password, $dbname);
-		
-		if ($conn->connect_error) {
-			die("Connection error: " . $conn->connect_error);
-		}
-		
-		$conn->set_charset("utf8");
-		
-		// read POST variables
-		$number_of_ids = !empty($_POST['num']) ? intval($_POST['num']) : 10; // 10 is the default
-		$format = strtolower($_POST['format']) == 'json' ? 'json' : 'xml'; // xml is the default
-		$code = $_POST['ID'];
-		$code = "%".$code."%";
-		
-		// prepare, bind and execute SQL statement
-		$stmt = $conn->prepare("SELECT ID, Firstname, Lastname FROM persons WHERE Firstname LIKE ? ORDER BY Firstname LIMIT ?");
-		$stmt->bind_param("si", $code, $number_of_ids); // si: string integer
-		$stmt->execute();
-		$stmt->bind_result($code, $name, $region);
-		
-		$countries = array();
-		while ($stmt->fetch()) {
-			array_push( $countries, array("ID"=>$code, "Firstname"=>$name, "Lastname"=>$region) );
-		}
-		
-		$stmt->close(); // close statement
-		
-		
-		if($format == 'json') { // JSON output
-			header('Content-type: application/json');
-			echo json_encode(array('persons'=>$countries));
-		}
-		else { // XML output
-			header('Content-type: text/xml');
-			echo '<persons>';
-			
-			foreach($countries as $index => $country) {
-				
-				echo '<person>';
-				foreach($country as $key => $value) {
-					echo '<',$key,'>';
-					echo htmlentities($value);
-					echo '</',$key,'>';
-				}
-				echo '</person>';
-				
+	if(isset($_GET['TCNumber']) & !isset($_GET['Name']) & !isset($_GET['Surname']) & !isset($_GET['BirthYear']))
+	{
+			$code = $_GET['TCNumber'];
+			$stmt = $db->getDataTable("SELECT TCNumber FROM peopleRecords WHERE TCNumber='$code'");
+			while ($row = $stmt->fetch_assoc())
+			{
+				$person= "TRUE";
 			}
-			
-			echo '</persons>';
-		}
+                $stmt->close(); // close statement
 		
-		$conn->close(); // close DB connection
+		header('Content-type: application/json');
+			echo json_encode(array('persons'=>$person));
 	}
-?>		
+	else if(isset($_GET['TCNumber']) & isset($_GET['Name']) & isset($_GET['Surname']) & isset($_GET['BirthYear'])) 
+	{
+		$code = $_GET['TCNumber'];
+        $birthyear= $_GET['BirthYear'];
+		
+        if (preg_match('/^\d{11}$/', $code) & preg_match('/^\d{4}$/', $birthyear))
+        {
+          header('Content-Type: text/xml');
+		  $client = new SoapClient("https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx?WSDL");
+		  $requestData = array(
+			"TCKimlikNo" => $_GET['TCNumber'],
+			"Ad" => $_GET['Name'],
+			"Soyad" => $_GET['Surname'],
+			"DogumYili" => $_GET['BirthYear']
+			);
+		  $result = $client->TCKimlikNoDogrula($requestData);
+		  if ($result->TCKimlikNoDogrulaResult === true){
+			$person= "TRUE";
+		  }
+        }  
+        else 
+		{
+            $person= "FALSE";
+        }
+
+		header('Content-type: application/json');
+			echo json_encode(array('persons'=>$person));
+	}
+	else if(isset($_GET['PassportNumber'])) 
+	{
+		$code = $_GET['PassportNumber'];
+			$stmt = $db->getDataTable("SELECT PassportNumber FROM peopleRecords WHERE PassportNumber='$code'");
+			while ($row = $stmt->fetch_assoc())
+			{
+				$person= "TRUE";
+			}
+        $stmt->close(); // close statement
+		header('Content-type: application/json');
+			echo json_encode(array('persons'=>$person));
+	}
+
+	else if(isset($_GET['DrivingLicenseNumber'])) 
+	{
+		$code = $_GET['DrivingLicenseNumber'];
+			$stmt = $db->getDataTable("SELECT DrivingLicenseNumber FROM peopleRecords WHERE DrivingLicenseNumber='$code'");
+			while ($row = $stmt->fetch_assoc())
+			{
+				$person= "TRUE";
+			}
+        $stmt->close(); // close statement
+		header('Content-type: application/json');
+			echo json_encode(array('persons'=>$person));
+	}
+?>
